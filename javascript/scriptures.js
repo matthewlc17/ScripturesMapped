@@ -16,10 +16,25 @@
 const scriptures = (function () {
     "use strict";
 
+    /*====================================================================
+     *              CONSTANTS
+     */
+    /*====================================================================
+     *              PRIVATE VARIABLES
+     */
     let books = {};
     let volumes = [];
+    /*====================================================================
+     *              PRIVATE METHOD DECLARATIONS
+     */
+    let ajax;
+    let cacheBooks;
+    let init;
+    /*==================================================================
+     *              PRIVATE METHODS
+     */
 
-    function ajax(url, successCallback, failureCallback) {
+    ajax = function(url, successCallback, failureCallback) {
         let request = new XMLHttpRequest();
         request.open("GET", url, true);
 
@@ -38,9 +53,9 @@ const scriptures = (function () {
         };
         request.onerror = failureCallback;
         request.send();
-    }
+    };
 
-    function cacheBooks(callback) {
+    cacheBooks = function(callback) {
         volumes.forEach(function (volume) {
             let volumeBooks = [];
             let bookId = volume.minBookId;
@@ -54,7 +69,35 @@ const scriptures = (function () {
         if (typeof callback === "function") {
             callback();
         }
-    }
+    };
+
+    init = function(callback) {
+        let booksLoaded = false;
+        let volumesLoaded = false;
+
+        ajax(
+            "http://scriptures.byu.edu/mapscrip/model/books.php",
+            function (data) {
+                books = data;
+                booksLoaded = true;
+
+                if (volumesLoaded) {
+                    cacheBooks(callback);
+                }
+            }
+        );
+        ajax(
+            "http://scriptures.byu.edu/mapscrip/model/volumes.php",
+            function (data) {
+                volumes = data;
+                volumesLoaded = true;
+
+                if (booksLoaded) {
+                    cacheBooks(callback);
+                }
+            }
+        );
+    };
     // function navigateHome() {
     //     let html = "<div>The Old Testament</div><div>The New Testament</div>";
     //     document.getElementByID("scriptures").innerHTM = html;
@@ -65,31 +108,7 @@ const scriptures = (function () {
      */
     const api = {
         init(callback) {
-            let booksLoaded = false;
-            let volumesLoaded = false;
-
-            ajax(
-                "http://scriptures.byu.edu/mapscrip/model/books.php",
-                function (data) {
-                    books = data;
-                    booksLoaded = true;
-
-                    if (volumesLoaded) {
-                        cacheBooks(callback);
-                    }
-                }
-            );
-            ajax(
-                "http://scriptures.byu.edu/mapscrip/model/volumes.php",
-                function (data) {
-                    volumes = data;
-                    volumesLoaded = true;
-
-                    if (booksLoaded) {
-                        cacheBooks(callback);
-                    }
-                }
-            );
+            init(callback);
         }
         // function onHashChanged() {
         //     let ids = [];
