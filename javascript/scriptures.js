@@ -345,21 +345,6 @@ const scriptures = (function () {
             title: placename,
             animation: google.maps.Animation.DROP
         });
-        let mapLabel = new MapLabel({
-            text: 'Test',
-            position: new google.maps.LatLng(34.03, -118.235),
-            map: map,
-            fontSize: 35,
-            align: 'right'
-        });
-        mapLabel.set('position', new google.maps.LatLng(34.03, -118.235));
-
-        let marker2 = new google.maps.Marker();
-        marker2.bindTo('map', mapLabel);
-        marker2.bindTo('position', mapLabel);
-        marker2.setDraggable(true);
-
-
         gmMarkers.push(marker);
     };
     clearMarkers = function () {
