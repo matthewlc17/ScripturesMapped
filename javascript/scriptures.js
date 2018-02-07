@@ -37,6 +37,7 @@ const scriptures = (function () {
      *              PRIVATE METHOD DECLARATIONS
      */
     let ajax;
+    let breadcrumbs;
     let cacheBooks;
     let init;
     let onHashChanged;
@@ -44,6 +45,7 @@ const scriptures = (function () {
     let navigateBook;
     let navigateChapter;
     let bookChapterValid;
+    let hash;
     let encodedScriptureURLParameters;
     let getScriptureCallback;
     let getScriptureFailed;
@@ -114,17 +116,68 @@ const scriptures = (function () {
             return SCRIPTURES_URL + "?book=" + bookId + "&chap=" + chapter + "&verses=" + options;
         }
     };
+
     getScriptureCallback = function (chapterHtml) {
         //potentially check if this is data we want to display to the user
-        document.getElementById("scriptures").innerHTML = "<button onclick=\"scriptures.navigateHome()\">Home</button>" + chapterHtml + "<div style=\"text-align:center;\"><button id=\"previousbtn\">Previous</button><button id=\"nextbtn\">Next</button></div>";
+        if (previousChapterHash !== undefined && nextChapterHash !== undefined) {
+            document.getElementById("scriptures").innerHTML = "<button onclick=\"scriptures.navigateHome()\">Home</button>" + chapterHtml + "<div style=\"text-align:center;\"><button id=\"previousbtn\">Previous</button><button id=\"nextbtn\">Next</button></div>";
+            document.getElementById("previousbtn").onclick = function() {location.hash = previousChapterHash;}
+            document.getElementById("nextbtn").onclick = function() {location.hash = nextChapterHash;}
+        } else if (previousChapterHash !== undefined && nextChapterHash === undefined) {
+            document.getElementById("scriptures").innerHTML = "<button onclick=\"scriptures.navigateHome()\">Home</button>" + chapterHtml + "<div style=\"text-align:center;\"><button id=\"previousbtn\">Previous</button></div>";
+            document.getElementById("previousbtn").onclick = function() {location.hash = previousChapterHash;}
+        } else if (previousChapterHash === undefined && nextChapterHash !== undefined) {
+            document.getElementById("scriptures").innerHTML = "<button onclick=\"scriptures.navigateHome()\">Home</button>" + chapterHtml + "<div style=\"text-align:center;\"><button id=\"nextbtn\">Next</button></div>";
+            document.getElementById("nextbtn").onclick = function() {location.hash = nextChapterHash;}
+        }
+        else {
+            navigateHome();
+        }
         setupMarkers();
-        //define onclick methods for previous/next buttons
-        document.getElementById("previousbtn").onclick = function() {location.hash = previousChapterHash;}
-        document.getElementById("nextbtn").onclick = function() {location.hash = nextChapterHash;}
     };
+
     getScriptureFailed = function () {
         console.log("warning: scripture request from server failed.");
     };
+    hash = function (volumeId, bookId, chapter) {
+        let newHash = "";
+
+        if (volumeId !== undefined) {
+            newHash += volumeId;
+            if (bookId !== undefined) {
+                newHash += ":" + bookId;
+            }
+            if (chapter !== undefined) {
+                newHash += ":" + chapter;
+            }
+        }
+        location.hash = newHash;
+    };
+    breadcrumbs = function(volume, book, chapter) {
+        let crumbs;
+
+        if (volume === undefined) {
+            crumbs = "<ul><li>The Scriptures</li>";
+        } else {
+            crumbs = "<ul><li><a href=\"javascript:void(0);\" onclick=\"Scriptures.hash()\">The Scriptures</a></li>";
+
+            if (book === undefined) {
+                crumbs += "<li>" + volume.fullName + "</li>";
+            } else {
+                crumbs += "<ul><li><a href=\"javascript:void(0);\" onclick=\"Scriptures.hash(" + volume.Id + ")\">" + volume.fullName + "</a></li>";
+
+                if (chapter === undefined || chapter <=0) {
+                    crumbs += "<li>" + book.tocName + "</li>";
+                } else {
+                    crumbs += "<ul><li><a href=\"javascript:void(0);\" onclick=\"Scriptures.hash(" + volume.Id + "," + book.Id + ")\">" + book.tocName + "</a></li>";
+                    crumbs += "<li>" +  chapter + "</li>";
+                }
+            }
+        }
+
+        return crumbs + "</ul>";
+    };
+
     init = function (callback) {
         let booksLoaded = false;
         let volumesLoaded = false;
@@ -157,7 +210,7 @@ const scriptures = (function () {
         let book = books[bookId];
         if (book !== undefined) {
             if (chapter < book.numChapters) {
-                return [bookId, chapter + 1, titleForBookChapter(book, chapter)];
+                return [book, chapter + 1, titleForBookChapter(book, chapter)];
             }
             let nextbook = books[bookId + 1];
 
@@ -166,7 +219,7 @@ const scriptures = (function () {
                 if (nextbook.numChapters > 0) {
                     nextChapterValue = 1;
                 }
-                return [nextbook.id, nextChapterValue, titleForBookChapter(nextbook, nextChapterValue)];
+                return [nextbook, nextChapterValue, titleForBookChapter(nextbook, nextChapterValue)];
             }
         }
     };
@@ -175,7 +228,7 @@ const scriptures = (function () {
         let book = books[bookId];
         if (book !== undefined) {
             if (chapter > 1) {
-                return [bookId, chapter - 1, titleForBookChapter(book, chapter)];
+                return [book, chapter - 1, titleForBookChapter(book, chapter)];
             }
             let previousbook = books[bookId - 1];
 
@@ -184,7 +237,7 @@ const scriptures = (function () {
                 if (previousbook.numChapters > 0) {
                     previousChapterValue = previousbook.numChapters;
                 }
-                return [previousbook.id, previousChapterValue, titleForBookChapter(previousbook, previousChapterValue)];
+                return [previousbook, previousChapterValue, titleForBookChapter(previousbook, previousChapterValue)];
             }
         }
     };
@@ -236,19 +289,28 @@ const scriptures = (function () {
     navigateHome = function (volumeId) {
         location.hash = "";
         let navContents = "<div id=\"scripnav\">";
+        let displayedVolume;
         volumes.forEach(function (volume) {
             if (volumeId === undefined || volume.id === volumeId) {
                 navContents += "<div class=\"volume\"<a name=\"v" + volume.id + "\" /><h5>" + volume.fullName + "</h5></div><div class=\"books\">";
 
                 volume.books.forEach(function (book) {
-                    navContents += "<a class=\"btn\" id=\"" + book.id + "\" href=\"#" + volume.id + ":" + book.id + "\">" + book.gridName + "</a>";
+                    if (book.numChapters === 0) {
+                        navContents += "<a class=\"btn\" id=\"" + book.id + "\" href=\"#" + volume.id + ":" + book.id + ":0" + "\">" + book.gridName + "</a>";
+                    } else {
+                        navContents += "<a class=\"btn\" id=\"" + book.id + "\" href=\"#" + volume.id + ":" + book.id + "\">" + book.gridName + "</a>";
+                    }
                 });
                 navContents += "</div>";
+
+                if (volume.id === volumeId) {
+                    displayedVolume = volume;
+                }
             }
         });
-
         navContents += "<br /><br /></div>";
         document.getElementById("scriptures").innerHTML = navContents;
+        document.getElementById("crumb").innerHTML = breadcrumbs(displayedVolume);
     };
 
     navigateBook = function (bookId) {
@@ -270,14 +332,19 @@ const scriptures = (function () {
             let previousChapterArray = previousChapter(bookId, chapter);
             //GREATE PLACE TO IMPLEMENT NEXT/PREIVIOUS
 
-            previousChapterHash = "1:" + previousChapterArray[0] + ":" + previousChapterArray[1];
-            nextChapterHash = "1:" + nextChapterArray[0] + ":" + nextChapterArray[1];
+            if (previousChapterArray !== undefined) {
+                previousChapterHash = previousChapterArray[0].parentBookId + ":" + previousChapterArray[0].id + ":" + previousChapterArray[1];
+            } else {
+                previousChapterHash = undefined;
+            }
+            if (nextChapterArray !== undefined) {
+                nextChapterHash = nextChapterArray[0].parentBookId + ":" + nextChapterArray[0].id + ":" + nextChapterArray[1];
+            } else {
+                nextChapterHash = undefined;
+            }
 
             ajax(encodedScriptureURLParameters(bookId, chapter), getScriptureCallback, getScriptureFailed, true);
         }
-        // document.getElementById("scriptures").innerHTML = "<div>Book ID: " + bookId + ", Chapter: " + chapter + "</div>";
-        // let book = books[bookId];
-        // console.log(book)
     };
 
     bookChapterValid = function (bookId, chapter) {
@@ -317,10 +384,11 @@ const scriptures = (function () {
                 let latitude = Number(matches[3]);
                 let longitude = Number(matches[4]);
                 let flag = matches[11].substring(1);
-                flag = flag.substring(0, flag.length - 1);
-                if (flag !== "") {
-                    placename += " " + flag;
-                }
+                //========== I HAVE ELECTED TO NOT USE FLAGS ================//
+                // flag = flag.substring(0, flag.length - 1);
+                // if (flag !== "") {
+                //     placename += " " + flag;
+                // }
                 addMarker(placename, latitude, longitude);
             }
         });
@@ -328,13 +396,21 @@ const scriptures = (function () {
         if (gmMarkers.length > 1) {
             let latlng = [];
             gmMarkers.forEach(function (marker) {
-                 latlng.push(new google.maps.LatLng(marker.position.lat(), marker.position.lng()));
+                latlng.push(new google.maps.LatLng(marker.position.lat(), marker.position.lng()));
             });
             let latlngbounds = new google.maps.LatLngBounds();
             latlng.forEach(function (myLatLng) {
                 latlngbounds.extend(myLatLng);
             });
             map.fitBounds(latlngbounds);
+        }
+        else if (gmMarkers.length == 1) {
+            map.setZoom(11);
+            map.panTo(gmMarkers[0].position);
+        }
+        else {
+            map.setZoom(11);
+            map.panTo(JURUSALEM_LAT_LNG);
         }
     };
 
@@ -357,7 +433,8 @@ const scriptures = (function () {
     showLocation = function (geotagId, placename, latitude, longitude, viewLatitude, viewLongitude, viewTilt, viewRoll, viewAltitude, viewHeading) {
         clearMarkers();
         addMarker(placename, latitude, longitude);
-        console.log(viewAltitude);
+        map.setZoom(16 - (viewAltitude / 1000));
+        map.panTo(gmMarkers[0].position);
     }
 
     /*==================================================
