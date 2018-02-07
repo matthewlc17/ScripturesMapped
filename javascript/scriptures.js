@@ -343,6 +343,7 @@ const scriptures = (function () {
             position: {lat: latitude, lng: longitude},
             map: map,
             title: placename,
+            label: placename,
             animation: google.maps.Animation.DROP
         });
         gmMarkers.push(marker);
