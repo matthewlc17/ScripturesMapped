@@ -59,6 +59,7 @@ const scriptures = (function () {
     let showLocation;
     let nextChapterHash;
     let previousChapterHash;
+    let recenterMap;
     /*==================================================================
      *              PRIVATE METHODS
      */
@@ -312,6 +313,8 @@ const scriptures = (function () {
         navContents += "<br /><br /></div>";
         document.getElementById("scriptures").innerHTML = navContents;
         document.getElementById("crumb").innerHTML = breadcrumbs(displayedVolume);
+        clearMarkers();
+        recenterMap();
     };
 
     navigateBook = function (bookId) {
@@ -324,6 +327,8 @@ const scriptures = (function () {
         navContents += "</div></div>"
         document.getElementById("scriptures").innerHTML = navContents;
         document.getElementById("crumb").innerHTML = breadcrumbs(volume, book);
+        clearMarkers();
+        recenterMap();
     };
 
     navigateChapter = function (bookId, chapter) {
@@ -433,6 +438,10 @@ const scriptures = (function () {
              marker.setMap(null);
         });
         gmMarkers = [];
+    };
+    recenterMap = function () {
+        map.setCenter(JURUSALEM_LAT_LNG);
+        map.setZoom(7);
     };
     showLocation = function (geotagId, placename, latitude, longitude, viewLatitude, viewLongitude, viewTilt, viewRoll, viewAltitude, viewHeading) {
         clearMarkers();
