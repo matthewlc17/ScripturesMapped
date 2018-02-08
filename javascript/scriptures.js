@@ -179,7 +179,6 @@ const scriptures = (function () {
     };
 
     getScriptureCallback = function (chapterHtml) {
-        //potentially check if this is data we want to display to the user
         if (previousChapterHash !== undefined && nextChapterHash !== undefined) {
             document.getElementById("scriptures").innerHTML = chapterHtml + "<div style=\"text-align:center;\"><button id=\"previousbtn\">Previous</button><button id=\"nextbtn\">Next</button></div>";
             document.getElementById("previousbtn").onclick = function () {location.hash = previousChapterHash;};
