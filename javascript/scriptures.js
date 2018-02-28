@@ -225,7 +225,7 @@ const scriptures = (function () {
         let volumesLoaded = false;
 
         ajax(
-            "http://scriptures.byu.edu/mapscrip/model/books.php",
+            "https://scriptures.byu.edu/mapscrip/model/books.php",
             function (data) {
                 books = data;
                 booksLoaded = true;
@@ -236,7 +236,7 @@ const scriptures = (function () {
             }
         );
         ajax(
-            "http://scriptures.byu.edu/mapscrip/model/volumes.php",
+            "https://scriptures.byu.edu/mapscrip/model/volumes.php",
             function (data) {
                 volumes = data;
                 volumesLoaded = true;
