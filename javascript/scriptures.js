@@ -27,7 +27,7 @@ const scriptures = (function () {
      *              CONSTANTS
      */
      const LAT_LON_PARSER = /\((.*),'(.*)',(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*)\)/;
-     const SCRIPTURES_URL = "https://scriptures.byu.edu/mapscrip/mapgetscrip.php";
+     const SCRIPTURES_URL = "http://scriptures.byu.edu/mapscrip/mapgetscrip.php";
      const MAX_RETRY_DELAY = 5000;
      const JURUSALEM_LAT_LNG = {lat: 31.7683, lng: 35.2137};
     /*====================================================================
@@ -225,7 +225,7 @@ const scriptures = (function () {
         let volumesLoaded = false;
 
         ajax(
-            "https://scriptures.byu.edu/mapscrip/model/books.php",
+            "http://scriptures.byu.edu/mapscrip/model/books.php",
             function (data) {
                 books = data;
                 booksLoaded = true;
@@ -236,7 +236,7 @@ const scriptures = (function () {
             }
         );
         ajax(
-            "https://scriptures.byu.edu/mapscrip/model/volumes.php",
+            "http://scriptures.byu.edu/mapscrip/model/volumes.php",
             function (data) {
                 volumes = data;
                 volumesLoaded = true;
