@@ -27,7 +27,7 @@ const scriptures = (function () {
      *              CONSTANTS
      */
      const LAT_LON_PARSER = /\((.*),'(.*)',(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*)\)/;
-     const SCRIPTURES_URL = "http://scriptures.byu.edu/mapscrip/mapgetscrip.php";
+     const SCRIPTURES_URL = "https://scriptures.byu.edu/mapscrip/mapgetscrip.php";
      const MAX_RETRY_DELAY = 5000;
      const JURUSALEM_LAT_LNG = {lat: 31.7683, lng: 35.2137};
     /*====================================================================
@@ -80,28 +80,33 @@ const scriptures = (function () {
     };
 
     ajax = function (url, successCallback, failureCallback, skipParse) {
-        let request = new XMLHttpRequest();
-        request.open("GET", url, true);
-
-        request.onload = function () {
-            if (request.status >= 200 && request.status < 400) {
-                let data;
-                if (skipParse) {
-                    data = request.responseText;
-                } else {
-                    data = JSON.parse(request.responseText);
-                }
-                if (typeof successCallback === "function") {
-                    successCallback(data);
-                }
-            } else {
-                if (typeof failureCallback === "function") {
-                    failureCallback(request);
-                }
-            }
-        };
-        request.onerror = failureCallback;
-        request.send();
+        $.ajax({
+            url: url,
+            success: successCallback,
+            error: failureCallback
+        })
+        // let request = new XMLHttpRequest();
+        // request.open("GET", url, true);
+        //
+        // request.onload = function () {
+        //     if (request.status >= 200 && request.status < 400) {
+        //         let data;
+        //         if (skipParse) {
+        //             data = request.responseText;
+        //         } else {
+        //             data = JSON.parse(request.responseText);
+        //         }
+        //         if (typeof successCallback === "function") {
+        //             successCallback(data);
+        //         }
+        //     } else {
+        //         if (typeof failureCallback === "function") {
+        //             failureCallback(request);
+        //         }
+        //     }
+        // };
+        // request.onerror = failureCallback;
+        // request.send();
     };
 
     bookChapterValid = function (bookId, chapter) {
