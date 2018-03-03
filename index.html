@@ -42,7 +42,18 @@
         }
     }
     ready(function () {
-        window.addEventListener("hashchange", scriptures.onHashChanged);
+        window.addEventListener("hashchange", function () {
+            let ids = location.hash.substring(1).split(":");
+            if (ids.length < 3) {
+                if ($("#scrip1").hasClass("activescrip")) {
+                    $("#scrip1").fadeOut(500,scriptures.onHashChanged)
+                } else {
+                    $("#scrip2").fadeOut(500,scriptures.onHashChanged)
+                }
+            } else {
+                scriptures.onHashChanged();
+            }
+        });
         scriptures.init(scriptures.onHashChanged);
     });
     // let map;
