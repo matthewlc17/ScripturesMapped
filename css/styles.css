@@ -94,6 +94,12 @@ div.subtitle {
     border-right: 1px solid #aaa;
     position: relative;
 }
+#scrip1, #scrip2 {
+    position:absolute;
+    min-height: 100%;
+    max-width: 100%;
+    width: 100%
+}
 
 #scripnav {
     position: absolute;

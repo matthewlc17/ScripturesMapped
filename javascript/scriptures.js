@@ -47,6 +47,7 @@ const scriptures = (function () {
     let breadcrumbs;
     let cacheBooks;
     let clearMarkers;
+    let currChapterHTML;
     let encodedScriptureURLParameters;
     let getScriptureCallback;
     let getScriptureFailed;
@@ -57,6 +58,7 @@ const scriptures = (function () {
     let navigateHome;
     let nextChapter;
     let nextChapterHash;
+    let nextChapterHTML;
     let onHashChanged;
     let previousChapter;
     let previousChapterHash;
@@ -80,11 +82,39 @@ const scriptures = (function () {
     };
 
     ajax = function (url, successCallback, failureCallback, skipParse) {
-        $.ajax({
-            url: url,
-            success: successCallback,
-            error: failureCallback
-        })
+        // if (successCallback === null) {
+        //     console.log("it is null");
+        //     console.log(nextChapterHash);
+        //     successCallback = function () {
+        //
+        //     }
+        // }
+        if (successCallback !== null) {
+            $.ajax({
+                url: url,
+                success: successCallback,
+                error: failureCallback
+            })
+        } else {
+            successCallback = function (data) {
+                currChapterHTML = data;
+                let ids = nextChapterHash.substring(1).split(":");
+                let bookId = ids[1];
+                let chapter = ids[2];
+                $.ajax({
+                    url: encodedScriptureURLParameters(bookId, chapter),
+                    success: getScriptureCallback,
+                    error: failureCallback
+                })
+            }
+            console.log(successCallback);
+            $.ajax({
+                url: url,
+                success: successCallback,
+                error: failureCallback
+            })
+        }
+
         // let request = new XMLHttpRequest();
         // request.open("GET", url, true);
         //
@@ -184,11 +214,21 @@ const scriptures = (function () {
     };
 
     getScriptureCallback = function (chapterHtml) {
+        nextChapterHTML = chapterHtml;
+        console.log(nextChapterHTML);
         if (previousChapterHash !== undefined && nextChapterHash !== undefined) {
-            document.getElementById("scriptures").innerHTML = chapterHtml + "<div style=\"text-align:center;\"><button id=\"previousbtn\">Previous</button><button id=\"nextbtn\">Next</button></div>";
-            
+            $("#navchapter").html("<div style=\"text-align:center;\"><button id=\"previousbtn\">Previous</button><button id=\"nextbtn\">Next</button></div>");
+            if ($("#scrip1").hasClass("activescrip")) {
+                $("#scrip1").html(currChapterHTML);
+                $("#scrip2").html(nextChapterHTML);
+            } else {
+                $("#scrip2").html(currChapterHTML);
+                $("#scrip1").html(nextChapterHTML);
+            }
             document.getElementById("previousbtn").onclick = function () {location.hash = previousChapterHash;};
-            document.getElementById("nextbtn").onclick = function () {location.hash = nextChapterHash;};
+            document.getElementById("nextbtn").onclick = function () {
+                location.hash = nextChapterHash;
+            };
         } else if (previousChapterHash !== undefined && nextChapterHash === undefined) {
             document.getElementById("scriptures").innerHTML = chapterHtml + "<div style=\"text-align:center;\"><button id=\"previousbtn\">Previous</button></div>";
             document.getElementById("previousbtn").onclick = function () {location.hash = previousChapterHash;};
@@ -287,7 +327,7 @@ const scriptures = (function () {
 
             requestedBreaadcrumbs = breadcrumbs(volume, book, chapter);
 
-            ajax(encodedScriptureURLParameters(bookId, chapter), getScriptureCallback, getScriptureFailed, true);
+            ajax(encodedScriptureURLParameters(bookId, chapter), null, getScriptureFailed, true);
         }
     };
 
