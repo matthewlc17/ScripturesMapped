@@ -373,12 +373,7 @@ const scriptures = (function () {
             }
         });
         navContents += "<br /><br /></div>";
-        // if ($("#scrip1").hasClass("activescrip")) {
-        //     $("#scrip1").html(navContents);
-        // } else {
-        //     $("#scrip2").html(navContents);
-        // }
-        $("#scriptures").html(navContents);
+        document.getElementById("scriptures").innerHTML = navContents;
         document.getElementById("crumb").innerHTML = breadcrumbs(displayedVolume);
         clearMarkers();
         recenterMap();
