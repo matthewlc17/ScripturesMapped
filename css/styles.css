@@ -231,7 +231,7 @@ div.navheading {
     justify-content: center;
 }
 
-#scriptures ul.versesblock {
+#scriptures ul.versesblock, #scrip1 ul.versesblock, #scrip2 ul.versesblock {
     margin: 0;
     line-height: auto;
     list-style: none;

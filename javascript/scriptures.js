@@ -215,7 +215,6 @@ const scriptures = (function () {
 
     getScriptureCallback = function (chapterHtml) {
         nextChapterHTML = chapterHtml;
-        console.log(nextChapterHTML);
         if (previousChapterHash !== undefined && nextChapterHash !== undefined) {
             $("#navchapter").html("<div style=\"text-align:center;\"><button id=\"previousbtn\">Previous</button><button id=\"nextbtn\">Next</button></div>");
             if ($("#scrip1").hasClass("activescrip")) {
@@ -227,7 +226,23 @@ const scriptures = (function () {
             }
             document.getElementById("previousbtn").onclick = function () {location.hash = previousChapterHash;};
             document.getElementById("nextbtn").onclick = function () {
-                location.hash = nextChapterHash;
+                if ($("#scrip1").hasClass("activescrip")) {
+                    $("#scrip1").animate({ left: "-100%" }, 1000, function () {
+                        $("#scrip1").attr("style","left: 100%");
+                        location.hash = nextChapterHash;
+                    });
+                    $("#scrip2").animate({ left: 0 }, 1000);
+                    $("#scrip1").removeClass("activescrip");
+                    $("#scrip2").addClass("activescrip");
+                } else {
+                    $("#scrip2").animate({ left: "-100%" }, 1000, function () {
+                        $("#scrip2").attr("style","left: 100%");
+                        location.hash = nextChapterHash;
+                    });
+                    $("#scrip1").animate({ left: 0 }, 1000);
+                    $("#scrip2").removeClass("activescrip");
+                    $("#scrip1").addClass("activescrip");
+                }
             };
         } else if (previousChapterHash !== undefined && nextChapterHash === undefined) {
             document.getElementById("scriptures").innerHTML = chapterHtml + "<div style=\"text-align:center;\"><button id=\"previousbtn\">Previous</button></div>";
@@ -300,7 +315,11 @@ const scriptures = (function () {
             i += 1;
         }
         navContents += "</div></div>";
-        document.getElementById("scriptures").innerHTML = navContents;
+        if ($("#scrip1").hasClass("activescrip")) {
+            $("#scrip1").html(navContents);
+        } else {
+            $("#scrip2").html(navContents);
+        }
         document.getElementById("crumb").innerHTML = breadcrumbs(volume, book);
         clearMarkers();
         recenterMap();
@@ -353,7 +372,11 @@ const scriptures = (function () {
             }
         });
         navContents += "<br /><br /></div>";
-        document.getElementById("scriptures").innerHTML = navContents;
+        if ($("#scrip1").hasClass("activescrip")) {
+            $("#scrip1").html(navContents);
+        } else {
+            $("#scrip2").html(navContents);
+        }
         document.getElementById("crumb").innerHTML = breadcrumbs(displayedVolume);
         clearMarkers();
         recenterMap();
