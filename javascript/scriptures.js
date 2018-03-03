@@ -315,11 +315,12 @@ const scriptures = (function () {
             i += 1;
         }
         navContents += "</div></div>";
-        if ($("#scrip1").hasClass("activescrip")) {
-            $("#scrip1").html(navContents);
-        } else {
-            $("#scrip2").html(navContents);
-        }
+        // if ($("#scrip1").hasClass("activescrip")) {
+        //     $("#scrip1").html(navContents);
+        // } else {
+        //     $("#scrip2").html(navContents);
+        // }
+        $("#scriptures").html(navContents);
         document.getElementById("crumb").innerHTML = breadcrumbs(volume, book);
         clearMarkers();
         recenterMap();
@@ -372,11 +373,12 @@ const scriptures = (function () {
             }
         });
         navContents += "<br /><br /></div>";
-        if ($("#scrip1").hasClass("activescrip")) {
-            $("#scrip1").html(navContents);
-        } else {
-            $("#scrip2").html(navContents);
-        }
+        // if ($("#scrip1").hasClass("activescrip")) {
+        //     $("#scrip1").html(navContents);
+        // } else {
+        //     $("#scrip2").html(navContents);
+        // }
+        $("#scriptures").html(navContents);
         document.getElementById("crumb").innerHTML = breadcrumbs(displayedVolume);
         clearMarkers();
         recenterMap();
