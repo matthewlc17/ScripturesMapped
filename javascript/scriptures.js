@@ -186,6 +186,7 @@ const scriptures = (function () {
     getScriptureCallback = function (chapterHtml) {
         if (previousChapterHash !== undefined && nextChapterHash !== undefined) {
             document.getElementById("scriptures").innerHTML = chapterHtml + "<div style=\"text-align:center;\"><button id=\"previousbtn\">Previous</button><button id=\"nextbtn\">Next</button></div>";
+            
             document.getElementById("previousbtn").onclick = function () {location.hash = previousChapterHash;};
             document.getElementById("nextbtn").onclick = function () {location.hash = nextChapterHash;};
         } else if (previousChapterHash !== undefined && nextChapterHash === undefined) {
