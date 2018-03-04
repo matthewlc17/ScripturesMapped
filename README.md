@@ -6,10 +6,10 @@ Date:    Winter 2018
 completing the project.
 
 ############################### PROJECT 1B ###################################
-    Unfortunately, this project took me an absurd amount of time. Even longer
+    Unfortunately, this project took me a tremendous amount of time. Even longer
 than project 1a, and I found myself with my wheels spinning quite a bit.
 Using animation was something that was completely new to me, and I don't feel
-that I had sufficient direction to get the task done. I'm sure there had to be
+that I had knew quite enough to get the task done. I'm sure there had to be
 something simple that I was missing, but I just can't quite figure out what
 that is. After spending my entire Friday and Saturday (25+ hours) trying to
 figure out the animation, I was left with very little time to modify the other
