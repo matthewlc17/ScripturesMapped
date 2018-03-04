@@ -220,7 +220,8 @@ const scriptures = (function () {
     getScriptureCallback = function (chapterHtml) {
         previousChapterHTML = chapterHtml;
         if (previousChapterHash !== undefined && nextChapterHash !== undefined) {
-            $("#navchapter").html("<div style=\"text-align:center;\"><button id=\"previousbtn\">Previous</button><button id=\"nextbtn\">Next</button></div>");
+            // $("#navchapter").html("<div style=\"text-align:center;\"><button id=\"previousbtn\">Previous</button><button id=\"nextbtn\">Next</button></div>");
+            currChapterHTML = "<div style=\"text-align:center;\"><button id=\"previousbtn\">previous</button><button id=\"nextbtn\">next</button></div>" + currChapterHTML;
             if ($("#scrip1").hasClass("activescrip")) {
                 $("#scrip1").html(currChapterHTML);
                 $("#scrip2").html(nextChapterHTML);
@@ -335,7 +336,7 @@ const scriptures = (function () {
     navigateBook = function (bookId) {
         let book = books[bookId];
         let volume = volumes[book.parentBookId - 1];
-        let navContents = "<div id=\"scripnav\"><h1>" + volume.fullName + "</h1><div class=\"volume\"<a name=\"v" + book.id + "\" /><h5>" + book.fullName + "</h5></div><div class=\"books\">";
+        let navContents = "<div id=\"scripnav\"><h1>" + volume.fullName + "</h1><div class=\"volume\"<a name=\"v" + book.id + "\" /><h3>" + book.fullName + "</h5></div><div class=\"books\">";
         // for (let i = 1; i < book.numChapters; i++) {
         let i = 1;
         while (i <= book.numChapters) {
@@ -380,27 +381,33 @@ const scriptures = (function () {
     };
 
     navigateHome = function (volumeId) {
-        let navContents = "<div id=\"scripnav\">";
+        // let navContents = "<div id=\"scripnav\">";
+        let navContents = '<div id="scripnav"><div id="accordion" role="tablist" aria-multiselectable="true">'
         let displayedVolume;
         volumes.forEach(function (volume) {
             if (volumeId === undefined || volume.id === volumeId) {
-                navContents += "<div class=\"volume\"<a name=\"v" + volume.id + "\" /><h5>" + volume.fullName + "</h5></div><div class=\"books\">";
-
+                // navContents += "<div class=\"volume\"<a name=\"v" + volume.id + "\" /><h5>" + volume.fullName + "</h5></div><div class=\"books\">";
+                if (volume.id === volumeId) {
+                    displayedVolume = volume;
+                    navContents = "<div id=\"scripnav\"><div class=\"volume\"<a name=\"v" + volume.id + "\" /><h3>" + volume.fullName + "</h5></div><div class=\"books\">";
+                } else {
+                    navContents += '<div class="card"><div class="card-header" role="tab" id="heading' + volume.id + '"><h3 class="mb-0"><a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse' + volume.id + '" aria-expanded="false" aria-controls="collapse' + volume.id + '">' + volume.fullName + '</a></h5></div><div id="collapse' + volume.id + '" class="collapse" role="tabpanel" aria-labelledby="heading' + volume.id + '"><div class="card-block"><div class="books">'
+                }
                 volume.books.forEach(function (book) {
                     if (book.numChapters === 0) {
                         navContents += "<a class=\"btn\" id=\"" + book.id + "\" href=\"#" + volume.id + ":" + book.id + ":0" + "\">" + book.gridName + "</a>";
                     } else {
                         navContents += "<a class=\"btn\" id=\"" + book.id + "\" href=\"#" + volume.id + ":" + book.id + "\">" + book.gridName + "</a>";
+                        // navContents += '<li>'
                     }
                 });
-                navContents += "</div>";
+                // navContents += "</div>";
+                navContents += '</div></div></div></div>'
 
-                if (volume.id === volumeId) {
-                    displayedVolume = volume;
-                }
+
             }
         });
-        navContents += "<br /><br /></div>";
+        navContents += "<br /><br /></div></div>";
         if ($("#scrip1").hasClass("activescrip")) {
             // $("#scrip1").fadeIn({ queue: true });
             document.getElementById("scrip1").innerHTML = navContents;
