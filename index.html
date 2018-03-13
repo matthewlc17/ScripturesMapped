@@ -11,11 +11,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:url"           content="https://matthewlc17.github.io/" />
+    <meta property="og:url"           content="https://matthewlc17.github.io/ScripturesMapped/" />
     <meta property="og:type"          content="website" />
-    <meta property="og:title"         content="ParentIQ" />
-    <meta property="og:description"   content="This is a description for the ParentIQ share button" />
-    <meta property="og:image"         content="http://parentiq.com/myfamilyiq/images/heart-sm.jpg" />
+    <meta property="og:title"         content="The Scriptures, Mapped" />
+    <meta property="og:description"   content="This is a description for the Scriptures mapped share button" />
+    <meta property="og:image"         content="https://matthewlc17.github.io/ScripturesMapped/BoM.jpeg" />
 
     <title>The Scriptures, Mapped</title>
     <meta name="description" content="The LDS Standard Works, Mapped">
@@ -29,6 +29,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12';
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
     <div id="header">
         <div id="crumb"></div>
         <div id="navchapter"></div>
@@ -40,8 +49,11 @@
     <div id="content">
         <div id="scriptures">
             <div id="scrip1" class="activescrip">
-                <img src="BoM.jpeg" />
                 <div style="text-align:center;"><button id="previousbtn">previous</button><button id="nextbtn">next</button></div>
+                <div class="fb-share-button"
+                    data-href="https://matthewlc17.github.io/ScripturesMapped/"
+                    data-layout="button_count">share
+                </div>
                 <div class="scripturewrapper">
                     <div class="scripturecontent" title="Scriptures: Alma 6">
                         <div class="chapterheading">The Book of Alma<br><b class="small">The Son of Alma</b></div>
