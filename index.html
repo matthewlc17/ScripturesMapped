@@ -51,7 +51,7 @@
             <div id="scrip1" class="activescrip">
                 <div style="text-align:center;"><button id="previousbtn">previous</button><button id="nextbtn">next</button></div>
                 <div class="fb-share-button"
-                    data-href=""
+                    data-href="myhref"
                     data-layout="button_count">share
                 </div>
                 <div class="scripturewrapper">
@@ -87,6 +87,7 @@
     ready(function () {
         $('head').append( '<meta property="og:url"           content="' + window.location.href + '" />' );
         $('.fb-share-button').data('href', window.location.href);
+        console.log($('.fb-share-button').data('href'));
         window.addEventListener("hashchange", function () {
             let ids = location.hash.substring(1).split(":");
             if (ids.length < 3) {
