@@ -229,11 +229,12 @@ div.text {
     font-weight: normal;
     background-color: white;
     padding-bottom: 3rem;
-    margin-top: 2.25em;
+    margin-top: 2.75em;
 }
 
 .fb-share-button {
-    margin-top: 1.25em;
+    position: absolute;
+    margin-top: 2em;
 }
 
 div.chapterheading {

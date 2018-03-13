@@ -11,7 +11,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:url"           content="https://matthewlc17.github.io/ScripturesMapped/" />
+    <!-- <meta property="og:url"           content="https://matthewlc17.github.io/ScripturesMapped/" /> -->
     <meta property="og:type"          content="website" />
     <meta property="og:title"         content="The Scriptures, Mapped" />
     <meta property="og:description"   content="This is a description for the Scriptures mapped share button" />
@@ -85,6 +85,7 @@
         }
     }
     ready(function () {
+        $('head').append( '<meta property="og:url"           content="' + window.location.href + '" />' );
         window.addEventListener("hashchange", function () {
             let ids = location.hash.substring(1).split(":");
             if (ids.length < 3) {
