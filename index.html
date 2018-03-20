@@ -100,6 +100,11 @@
               'Thanks for logging in, ' + response.name + '!';
           });
         }
+        document.getElementById('my-logout').onclick = (function() {
+            FB.logout(function(response) {
+            // Person is now logged out
+            });
+        });
     </script>
     <div id="header">
         <div id="crumb"></div>
@@ -118,7 +123,7 @@
                 <!-- <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
                 <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
                 <div id="status"></div>
-                <button class="btn-danger" onclick="FB.logout(function(response) {// Person is now logged out});">logout</button>
+                <button class="btn-danger" id="my-logout">logout</button>
                 <div class="scripturewrapper">
                     <div class="scripturecontent" title="Scriptures: Alma 6">
                         <div class="chapterheading">The Book of Alma<br><b class="small">The Son of Alma</b></div>
