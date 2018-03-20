@@ -100,11 +100,11 @@
               'Thanks for logging in, ' + response.name + '!';
           });
         }
-        document.getElementById('my-logout').onclick = (function() {
+        function FacebookLogout () {
             FB.logout(function(response) {
             // Person is now logged out
-            });
-        });
+            })
+        }
     </script>
     <div id="header">
         <div id="crumb"></div>
@@ -171,6 +171,8 @@
             }
         });
         scriptures.init(scriptures.onHashChanged);
+        console.log(FacebookLogout);
+        document.getElementById('my-logout').onclick = FacebookLogout();
     });
     // let map;
     function initMap() {
