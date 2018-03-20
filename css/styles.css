@@ -235,6 +235,7 @@ div.text {
 .fb-like {
     position: absolute;
     margin-top: 2.5em;
+    width: 100%;
 }
 
 div.chapterheading {
