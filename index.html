@@ -96,8 +96,8 @@
           console.log('Welcome!  Fetching your information.... ');
           FB.api('/me', function(response) {
             console.log('Successful login for: ' + response.name);
-            document.getElementById('status').innerHTML =
-              'Thanks for logging in, ' + response.name + '!';
+            document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
+            document.getElementById('my-login').style.display = "none";
           });
         }
         function FacebookLogout() {
@@ -123,7 +123,7 @@
                 <!-- <div class="fb-share-button" id="my-fb-share" data-layout="button_count">share</div> -->
                 <div class="fb-like" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
                 <!-- <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
-                <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+                <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" id="my-login"></fb:login-button>
                 <div id="status"></div>
                 <button class="btn-danger" id="my-logout" onclick="FacebookLogout()">logout</button>
                 <div class="scripturewrapper">
