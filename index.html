@@ -99,7 +99,10 @@
             document.getElementById('status').innerHTML =
               'Thanks for logging in, ' + response.name + '!';
           });
-          document.getElementById('my-logout').onclick = FacebookLogout();
+          document.getElementById('my-logout').onclick = FB.logout(function(response) {
+          // Person is now logged out
+              console.log('logout called2');
+          });
         }
         function FacebookLogout() {
             console.log('logout called');
