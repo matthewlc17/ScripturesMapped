@@ -68,6 +68,15 @@ img {
     flex-direction: column;
 }
 
+#login {
+    display: flex;
+    flex: -1;
+    justify-content: center;
+    font-weight: normal;
+    text-align: center;
+    flex-direction: column;
+}
+
 div.title {
     display: block;
     font-size: larger;
