@@ -96,20 +96,20 @@
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
-    });
-    document.getElementById('my-login').style.display = "none";
-    document.getElementById('my-logout').style.display = "block";
+        document.getElementById('my-login').style.display = "none";
+        document.getElementById('my-logout').style.display = "block";
 
+    });
   }
   function FacebookLogout() {
     console.log('logout called');
     FB.logout(function(response) {
                 // Person is now logged out
-    })
-    document.getElementById('my-login').style.display = "block";
-    document.getElementById('my-logout').style.display = "none";
-    document.getElementById('status').innerHTML = 'Please log into this app.';
+                document.getElementById('my-login').style.display = "block";
+                document.getElementById('my-logout').style.display = "none";
+                document.getElementById('status').innerHTML = 'Please log into this app.';
 
+    })
 }
 
 </script>
