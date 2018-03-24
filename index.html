@@ -97,12 +97,19 @@
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
     });
+    document.getElementById('my-login').style.display = "none";
+    document.getElementById('my-logout').style.display = "block";
+
   }
   function FacebookLogout() {
     console.log('logout called');
     FB.logout(function(response) {
                 // Person is now logged out
     })
+    document.getElementById('my-login').style.display = "block";
+    document.getElementById('my-logout').style.display = "none";
+    document.getElementById('status').innerHTML = 'Please log into this app.';
+
 }
 
 </script>
@@ -120,7 +127,7 @@
 
             <div id="status">
             </div>
-            <button class="btn-danger" id="my-logout" onclick="FacebookLogout()">logout</button>
+            <button class="btn-danger" id="my-logout" onclick="FacebookLogout()" style="display:none;">logout</button>
         </div>
     </div>
     <div id="content">
