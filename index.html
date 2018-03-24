@@ -70,7 +70,7 @@
         }
     }
     ready(function () {
-        
+
         window.addEventListener("hashchange", function () {
             let ids = location.hash.substring(1).split(":");
             if (ids.length < 3) {
@@ -84,7 +84,6 @@
             }
         });
         scriptures.init(scriptures.onHashChanged);
-        console.log(FacebookLogout);
     });
     // let map;
     function initMap() {
