@@ -104,7 +104,6 @@
             console.log('logout called');
             FB.logout(function(response) {
             // Person is now logged out
-                console.log('logout called2');
                 document.getElementById('my-login').style.display = "block";
                 document.getElementById('my-logout').style.display = "none";
                 document.getElementById('status').innerHTML = 'Please log into this app.';
@@ -119,7 +118,7 @@
             <div id="subtitle">By Matthew Christensen</div>
         </div>
         <div id="login">
-            <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" id="my-login"></fb:login-button>
+            <fb:login-button scope="public_profile,email,user_birthday" onlogin="checkLoginState();" id="my-login"></fb:login-button>
             <div id="status"></div>
             <button class="btn-danger" id="my-logout" onclick="FacebookLogout()" style="display:none;">logout</button>
         </div>
@@ -164,7 +163,6 @@
     ready(function () {
         $('head').append( '<meta property="og:url"           content="' + window.location.href + '" />' );
         $('.fb-share-button').data('href', window.location.href);
-        console.log($('.fb-share-button').data('href'));
         window.addEventListener("hashchange", function () {
             let ids = location.hash.substring(1).split(":");
             if (ids.length < 3) {
