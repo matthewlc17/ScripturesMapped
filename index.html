@@ -109,6 +109,9 @@
                 document.getElementById('status').innerHTML = 'Please log into this app.';
             })
         }
+        function getAccessToken() {
+            console.log(FB.getAuthResponse);
+        }
     </script>
     <div id="header">
         <div id="crumb"></div>
@@ -129,6 +132,7 @@
                 <div style="text-align:center;"><button id="previousbtn">previous</button><button id="nextbtn">next</button></div>
                 <!-- <div class="fb-share-button" id="my-fb-share" data-layout="button_count">share</div> -->
                 <div class="fb-like" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                <button class="btn btn-primary" onclick="getAccessToken()">Get token</button>
                 <!-- <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
                 <div class="scripturewrapper">
                     <div class="scripturecontent" title="Scriptures: Alma 6">
