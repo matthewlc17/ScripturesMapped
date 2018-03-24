@@ -31,17 +31,14 @@
             <div id="subtitle">By Matthew Christensen</div>
         </div>
         <div id="login">
-            
+
         </div>
     </div>
     <div id="content">
         <div id="scriptures">
             <div id="scrip1" class="activescrip">
                 <div style="text-align:center;"><button id="previousbtn">previous</button><button id="nextbtn">next</button></div>
-                <!-- <div class="fb-share-button" id="my-fb-share" data-layout="button_count">share</div> -->
-                <div class="fb-like" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
-                <button class="btn btn-primary" onclick="getAccessToken()">Get token</button>
-                <!-- <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
+
                 <div class="scripturewrapper">
                     <div class="scripturecontent" title="Scriptures: Alma 6">
                         <div class="chapterheading">The Book of Alma<br><b class="small">The Son of Alma</b></div>
@@ -73,8 +70,7 @@
         }
     }
     ready(function () {
-        $('head').append( '<meta property="og:url"           content="' + window.location.href + '" />' );
-        $('.fb-share-button').data('href', window.location.href);
+        
         window.addEventListener("hashchange", function () {
             let ids = location.hash.substring(1).split(":");
             if (ids.length < 3) {
