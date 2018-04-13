@@ -172,6 +172,8 @@
         }
     }
     ready(function () {
+        $('head').append( '<meta property="og:url"           content="' + window.location.href + '" />' );
+        $('.fb-share-button').data('href', window.location.href);
         window.addEventListener("hashchange", function () {
             let ids = location.hash.substring(1).split(":");
             if (ids.length < 3) {
